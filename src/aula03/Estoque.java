@@ -35,7 +35,6 @@ public class Estoque {
         for (Produto eachProduto:this.listaDeProdutos) {
             if (eachProduto.getNomeProduto().equals(novoProduto.getNomeProduto()) && eachProduto.getMarcaProduto().equals(novoProduto.getMarcaProduto())){
                 updateProduto(eachProduto.getIdProduto(), "qtd",Integer.toString(novoProduto.getQtdProduto()+eachProduto.getQtdProduto()));
-                //eachProduto.setQtdProduto(novoProduto.getQtdProduto()+eachProduto.getQtdProduto());
                 return;
             }
         }
@@ -43,44 +42,56 @@ public class Estoque {
     }
 
     public void readProduto(int idProduto) {
-        listaDeProdutos.forEach(produto -> {
-            if (produto.getIdProduto()==idProduto) {
-                System.out.println(produto.toString());
-                return;
-            }
-        });
+        if (verificarExistencia(idProduto)) {
+            listaDeProdutos.forEach(produto -> {
+                if (produto.getIdProduto() == idProduto) {
+                    System.out.println(produto.toString());
+                    return;
+                }
+            });
+        }else {
+            System.out.println("O produto não existe");
+        }
     }
 
     public void updateProduto(int idProduto, String atributo, String valor){
-        listaDeProdutos.forEach(produto -> {
-            if (produto.getIdProduto()==idProduto){
-                switch (atributo){
-                    case "nome":produto.setNomeProduto(valor);
-                        break;
-                    case "sessao": produto.setSessaoProduto(valor);
-                        break;
-                    case "tipo": produto.setTipoProduto(valor);
-                        break;
-                    case "qtd": produto.setQtdProduto(Integer.parseInt(valor));
-                        break;
-                    case "marca": produto.setMarcaProduto(valor);
-                        break;
-                    default:
-                        System.out.println("Atributo inexistente");
-                        break;
+        if (verificarExistencia(idProduto)) {
+            listaDeProdutos.forEach(produto -> {
+                if (produto.getIdProduto()==idProduto){
+                    switch (atributo){
+                        case "nome":produto.setNomeProduto(valor);
+                            break;
+                        case "sessao": produto.setSessaoProduto(valor);
+                            break;
+                        case "tipo": produto.setTipoProduto(valor);
+                            break;
+                        case "qtd": produto.setQtdProduto(Integer.parseInt(valor));
+                            break;
+                        case "marca": produto.setMarcaProduto(valor);
+                            break;
+                        default:
+                            System.out.println("Atributo inexistente");
+                            break;
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            System.out.println("O produto não existe");
+        }
     }
 
     public void deleteProduto(int idProduto) {
-        listaDeProdutos.forEach(produto -> {
-            if (produto.getIdProduto()==idProduto){
-                this.posicaoProdutoDeletado = this.listaDeProdutos.indexOf(produto);
-                return;
-            }
-        });
-        this.listaDeProdutos.remove(posicaoProdutoDeletado);
+        if (verificarExistencia(idProduto)) {
+            listaDeProdutos.forEach(produto -> {
+                if (produto.getIdProduto() == idProduto) {
+                    this.posicaoProdutoDeletado = this.listaDeProdutos.indexOf(produto);
+                    return;
+                }
+            });
+            this.listaDeProdutos.remove(posicaoProdutoDeletado);
+        }else {
+            System.out.println("O produto não existe");
+        }
     }
 
     //Impressões console:
@@ -96,5 +107,16 @@ public class Estoque {
         }else {
             listProdutos();
         }
+    }
+
+    public boolean verificarExistencia(int idProdutoProcurado){
+        int[] i = {0};
+        listaDeProdutos.forEach(produto -> {
+            if (produto.getIdProduto()==idProdutoProcurado){
+                i[0] =1;
+            }
+        });
+
+        return i[0] != 0;
     }
 }
