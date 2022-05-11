@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 public class Estoque {
     public String nomeEstoque;
-    private ArrayList<Produto> listaDeProdutos;
-    private int idEstoque;
-    private boolean produtoExistente = false;
+    private final ArrayList<Produto> listaDeProdutos;
+    private int idEstoque=0;
     private static int contadorEstoque=0;
+    int posicaoProdutoDeletado = 0;
 
+    //Constructors:
     Estoque(){
         contadorEstoque++;
         this.idEstoque=contadorEstoque;
@@ -29,41 +30,71 @@ public class Estoque {
         this.listaDeProdutos = listaDeProdutos;
     }
 
-    public void addProduto(Produto produto) {
-        for (Produto eachProduto:listaDeProdutos) {
-            if (eachProduto.getNomeProduto()==produto.getNomeProduto()){
-                boolean produtoExistente = true;
-                eachProduto.setQtdProduto(produto.getQtdProduto()+eachProduto.getQtdProduto());
+    //CRUD:
+    public void createProduto(Produto novoProduto) {
+        for (Produto eachProduto:this.listaDeProdutos) {
+            if (eachProduto.getNomeProduto().equals(novoProduto.getNomeProduto()) && eachProduto.getMarcaProduto().equals(novoProduto.getMarcaProduto())){
+                updateProduto(eachProduto.getIdProduto(), "qtd",Integer.toString(novoProduto.getQtdProduto()+eachProduto.getQtdProduto()));
+                //eachProduto.setQtdProduto(novoProduto.getQtdProduto()+eachProduto.getQtdProduto());
+                return;
             }
         }
-        if (!produtoExistente){
-            listaDeProdutos.add(produto);
-        }
+        this.listaDeProdutos.add(novoProduto);
     }
 
-    public void removeProduto(String nomeProduto) {
-        ArrayList<Produto> produtoASerExcluido = readProduto(nomeProduto).listaDeProdutos;
-        this.listaDeProdutos.remove(produtoASerExcluido);
+    public void readProduto(int idProduto) {
+        listaDeProdutos.forEach(produto -> {
+            if (produto.getIdProduto()==idProduto) {
+                System.out.println(produto.toString());
+                return;
+            }
+        });
     }
 
-
-    public void listProdutos() {
-        for (Produto produto: listaDeProdutos) {
-            System.out.println(produto.getNomeProduto());
-        }
-    }
-
-    public Estoque readProduto(String nomeProduto) {
-        Estoque newEstoque = new Estoque();
-
-        for (Produto produto:this.listaDeProdutos) {
-            for (String filtroProduto: produto.getNomeProduto()) {
-                if (filtroProduto.equals(nomeProduto)) {
-                    newEstoque.addProduto(produto);
+    public void updateProduto(int idProduto, String atributo, String valor){
+        listaDeProdutos.forEach(produto -> {
+            if (produto.getIdProduto()==idProduto){
+                switch (atributo){
+                    case "nome":produto.setNomeProduto(valor);
+                        break;
+                    case "sessao": produto.setSessaoProduto(valor);
+                        break;
+                    case "tipo": produto.setTipoProduto(valor);
+                        break;
+                    case "qtd": produto.setQtdProduto(Integer.parseInt(valor));
+                        break;
+                    case "marca": produto.setMarcaProduto(valor);
+                        break;
+                    default:
+                        System.out.println("Atributo inexistente");
+                        break;
                 }
             }
-        }
+        });
+    }
 
-        return newEstoque;
+    public void deleteProduto(int idProduto) {
+        listaDeProdutos.forEach(produto -> {
+            if (produto.getIdProduto()==idProduto){
+                this.posicaoProdutoDeletado = this.listaDeProdutos.indexOf(produto);
+                return;
+            }
+        });
+        this.listaDeProdutos.remove(posicaoProdutoDeletado);
+    }
+
+    //Impressões console:
+    public void listProdutos() {
+        listaDeProdutos.forEach(produto -> {
+            System.out.println(produto.toString());
+        });
+    }
+
+    public void imprimirListaProdutos(){
+        if (listaDeProdutos.isEmpty()){
+            System.out.println("Não há registro de produtos nessa lista");
+        }else {
+            listProdutos();
+        }
     }
 }

@@ -1,7 +1,9 @@
 package aula03;
 
+import java.util.Arrays;
+
 public class Produto {
-    private String[] nomeProduto;
+    private String nomeProduto;
     private String sessaoProduto;
     private String tipoProduto;
     private int qtdProduto;
@@ -9,13 +11,13 @@ public class Produto {
     private int idProduto;
     private static int contadorProduto=0;
 
-    public Produto(String nomeProduto[]){
+    public Produto(String nomeProduto){
         contadorProduto++;
         this.idProduto=contadorProduto;
         this.nomeProduto = nomeProduto;
     }
 
-    public Produto(String nomeProduto[], String sessaoProduto, String tipoProduto, int qtdProduto, String marcaProduto) {
+    public Produto(String nomeProduto, String sessaoProduto, String tipoProduto, int qtdProduto, String marcaProduto) {
         contadorProduto++;
         this.idProduto=contadorProduto;
         this.nomeProduto = nomeProduto;
@@ -25,7 +27,7 @@ public class Produto {
         this.marcaProduto = marcaProduto;
     }
 
-    public String[] getNomeProduto() {
+    public String getNomeProduto() {
         return nomeProduto;
     }
 
@@ -49,11 +51,7 @@ public class Produto {
         return idProduto;
     }
 
-    public static int getContadorProduto() {
-        return contadorProduto;
-    }
-
-    public void setNomeProduto(String nomeProduto[]) {
+    public void setNomeProduto(String nomeProduto) {
         this.nomeProduto = nomeProduto;
     }
 
@@ -73,7 +71,15 @@ public class Produto {
         this.marcaProduto = marcaProduto;
     }
 
-    public static void setContadorProduto(int contadorProduto) {
-        Produto.contadorProduto = contadorProduto;
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "nomeProduto=" + nomeProduto +
+                ", sessaoProduto='" + sessaoProduto + '\'' +
+                ", tipoProduto='" + tipoProduto + '\'' +
+                ", qtdProduto=" + qtdProduto +
+                ", marcaProduto='" + marcaProduto + '\'' +
+                ", idProduto=" + idProduto +
+                '}';
     }
 }
