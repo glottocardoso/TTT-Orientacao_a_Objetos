@@ -22,4 +22,8 @@ public class Pessoa {
     public void setRG(String RG) {
         this.RG = RG;
     }
+
+    public String getNome() {
+        return nome;
+    }
 }

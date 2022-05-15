@@ -9,6 +9,27 @@ public class Escola {
     private ArrayList<Funcionario> funcionarios;
     private ArrayList<Aluno> alunos;
 
+    public Escola() {
+        pessoas = new ArrayList<Pessoa>();
+        professores = new ArrayList<Professor>();
+        funcionarios = new ArrayList<Funcionario>();
+        alunos = new ArrayList<Aluno>();
+    }
+
+    public void addAluno(String nome, String CPF, String RG, int idade, String turma, ArrayList<Notas> notas){
+        Aluno aluno = new Aluno(nome, CPF, RG, idade, turma,notas);
+        if (!this.alunos.contains(aluno)){
+            this.alunos.add(aluno);
+        }
+    }
+
+    public void addAluno(String nome, String CPF, String RG, int idade, String turma){
+        Aluno novoAluno = new Aluno(nome, CPF, RG, idade, turma);
+        if(retornaIndexAluno(novoAluno.CPF)==-1){
+            this.alunos.add(novoAluno);
+        }
+    }
+
     public void addFuncionario(String nome, String CPF, String RG, String cargo, BigDecimal salario){
         Funcionario funcionario = new Funcionario(nome, CPF, RG, cargo, salario);
         if (!funcionarios.contains(funcionario)){
@@ -23,54 +44,44 @@ public class Escola {
         }
     }
 
-    public void addAluno(String nome, String CPF, String RG, int idade, String turma, int[] notasCiencia, int[] notasPortugues, int[] notasMatematica){
-        Aluno aluno = new Aluno(nome, CPF, RG, idade, turma,notasCiencia,notasPortugues,notasMatematica);
-        if (!alunos.contains(aluno)){
-            alunos.add(aluno);
-        }
-    }
-
-    public void editFuncionario(String nome, String CPF, String RG, String cargo, BigDecimal salario){
-        Funcionario updatedFuncionario = new Funcionario(nome, CPF, RG, cargo, salario);
-        if (funcionarios.contains(updatedFuncionario)){
-            int i = funcionarios.indexOf(updatedFuncionario);
-            funcionarios.get(i).setNome(nome);
-            funcionarios.get(i).setCPF(CPF);
-            funcionarios.get(i).setRG(RG);
-            funcionarios.get(i).setCargo(cargo);
-            funcionarios.get(i).setSalario(salario);
-        }else {
-            System.out.println("Funcionário inexistente");
-        }
-    }
-
-    public void editAluno(String nome, String CPF, String RG, int idade, String turma,int[] notasCiencia, int[] notasPortugues, int[] notasMatematica){
-        Aluno updatedAluno = new Aluno(nome, CPF, RG, idade, turma,notasCiencia,notasPortugues, notasMatematica);
-        if (alunos.contains(updatedAluno)){
-            int i = alunos.indexOf(updatedAluno);
-            alunos.get(i).setNome(nome);
-            alunos.get(i).setCPF(CPF);
-            alunos.get(i).setRG(RG);
-            alunos.get(i).setIdade(idade);
-            alunos.get(i).setTurma(turma);
-        }else {
+    public void editAluno(String cpfOriginal, String nome, String CPF, String RG, int idade, String turma){
+        int indexAluno = retornaIndexAluno(cpfOriginal);
+        if (indexAluno==-1){
             System.out.println("Aluno inexistente");
+        }else{
+            alunos.get(indexAluno).setNome(nome);
+            alunos.get(indexAluno).setCPF(CPF);
+            alunos.get(indexAluno).setRG(RG);
+            alunos.get(indexAluno).setIdade(idade);
+            alunos.get(indexAluno).setTurma(turma);
         }
     }
 
-    public void editProfessor(String nome, String CPF, String RG, String[] turmas, BigDecimal salario, String[] disciplinas){
-        Professor updatedProfessor = new Professor(nome, CPF, RG, turmas, salario,disciplinas);
-        if (professores.contains(updatedProfessor)){
-            int i = professores.indexOf(updatedProfessor);
-            professores.get(i).setNome(nome);
-            professores.get(i).setCPF(CPF);
-            professores.get(i).setRG(RG);
-            professores.get(i).setTurmas(turmas);
-            professores.get(i).setSalario(salario);
-            professores.get(i).setDisciplinas(disciplinas);
-        }else {
-            System.out.println("Professor inexistente");
+    public void editFuncionario(String cpfOriginal,String nome, String CPF, String RG, String cargo, BigDecimal salario){
+        int indexFuncionario = retornaIndexFuncionario(cpfOriginal);
+        if (indexFuncionario==-1){
+            System.out.println("Funcionário inexistente");
+        }else{
+            funcionarios.get(indexFuncionario).setNome(nome);
+            funcionarios.get(indexFuncionario).setCPF(CPF);
+            funcionarios.get(indexFuncionario).setRG(RG);
+            funcionarios.get(indexFuncionario).setCargo(cargo);
+            funcionarios.get(indexFuncionario).setSalario(salario);
         }
+    }
+
+    public void editProfessor(String cpfOriginal, String nome, String CPF, String RG, String[] turmas, BigDecimal salario, String[] disciplinas){
+        int indexProfessor = retornaIndexProfessor(cpfOriginal);
+       if (indexProfessor==-1){
+           System.out.println("Professor inexistente");
+       }else {
+           professores.get(indexProfessor).setNome(nome);
+           professores.get(indexProfessor).setCPF(CPF);
+           professores.get(indexProfessor).setRG(RG);
+           professores.get(indexProfessor).setTurmas(turmas);
+           professores.get(indexProfessor).setSalario(salario);
+           professores.get(indexProfessor).setDisciplinas(disciplinas);
+       }
     }
 
     public void deleteAluno(String CPF){
@@ -121,12 +132,12 @@ public class Escola {
         return -1;
     }
 
-    public void listFuncionarios(){
-        list(funcionarios);
-    }
-
     public void listAlunos(){
         list(alunos);
+    }
+
+    public void listFuncionarios(){
+        list(funcionarios);
     }
 
     public void listProfessores(){
@@ -139,6 +150,11 @@ public class Escola {
         });
     }
 
+    public void listAlunoEspecifico(String cpf) {
+        int indexAluno = retornaIndexAluno(cpf);
+        System.out.println(alunos.get(indexAluno).toString());
+    }
+
     public void listFuncionarioEspecifico(String cpf) {
         int indexFuncionario = retornaIndexFuncionario(cpf);
         System.out.println(funcionarios.get(indexFuncionario).toString());
@@ -149,10 +165,18 @@ public class Escola {
         System.out.println(professores.get(indexProfessor).toString());
     }
 
-    public void listAlunoEspecifico(String cpf) {
-        int indexAluno = retornaIndexAluno(cpf);
-        System.out.println(alunos.get(indexAluno).toString());
+    public void setNota(String cpfAluno, String disciplina, int nota){
+        int indexAluno = retornaIndexAluno(cpfAluno);
+        Aluno aluno = alunos.get(indexAluno);
+        aluno.setNota(disciplina, nota);
     }
 
+    public void calcularMedia(String cpf){
+        int indexAluno = retornaIndexAluno(cpf);
+        Aluno aluno = alunos.get(indexAluno);
+        double media = aluno.calcularMedia();
+        String nomeAluno = aluno.getNome();
+        System.out.println("A média do aluno "+nomeAluno+ " é: "+media);
+    }
 
 }
