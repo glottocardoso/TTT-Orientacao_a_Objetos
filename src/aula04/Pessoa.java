@@ -1,6 +1,6 @@
 package aula04;
 
-public class Pessoa {
+public abstract class Pessoa {
     protected String nome;
     protected String CPF;
     protected String RG;
