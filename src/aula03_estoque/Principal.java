@@ -1,7 +1,4 @@
-package aula03;
-
-import java.util.List;
-import java.util.ArrayList;
+package aula03_estoque;
 
 public class Principal {
     public static void main(String[] args) {

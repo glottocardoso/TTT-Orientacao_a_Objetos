@@ -1,4 +1,4 @@
-package aula04;
+package aula04_escola;
 
 public abstract class Pessoa {
     protected String nome;

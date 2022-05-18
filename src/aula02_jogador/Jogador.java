@@ -1,4 +1,4 @@
-package aula02;
+package aula02_jogador;
 
 import java.time.LocalDate;
 import java.util.Random;

@@ -1,6 +1,4 @@
-package aula03;
-
-import java.util.Arrays;
+package aula03_estoque;
 
 public class Produto {
     private String nomeProduto;

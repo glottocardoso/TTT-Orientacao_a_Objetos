@@ -1,4 +1,4 @@
-package aula04;
+package aula04_escola;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package aula04;
+package aula04_escola;
 
 public class Notas {
     private String disciplina;

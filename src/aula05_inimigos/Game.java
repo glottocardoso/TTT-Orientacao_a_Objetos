@@ -1,4 +1,4 @@
-package aula05_Inimigos;
+package aula05_inimigos;
 
 import java.util.Scanner;
 
