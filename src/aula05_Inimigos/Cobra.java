@@ -1,20 +1,19 @@
 package aula05_Inimigos;
 
-public class Vampiro extends Inimigos {
-
-    public Vampiro() {
-        this.nome = "Vampiro";
+public class Cobra extends Inimigos {
+    public Cobra() {
+        this.nome = "Cobra";
     }
 
     @Override
     public void interagir() {
-        System.out.println(this.nome +": O que é um homem?");
+        System.out.println(this.nome +": Se você acender a chama a maldição acaba.");
     }
 
     @Override
     public Dano atacar() {
-        Dano dano = new Dano(20,"perfurante",": Seu personagem está sangrando");
-        System.out.println(this.nome + ": Causou "+ dano.getValorDano() + " com um ataque "+dano.getTipoDano());
+        Dano dano = new Dano(10,"envenenamento",": Seu personagem está envenenado");
+        System.out.println(this.nome + ": Causou "+ dano.getValorDano() + " com um ataque do tipo "+dano.getTipoDano());
         System.out.println(this.nome + dano.getMensagem());
         return dano;
     }
@@ -25,7 +24,7 @@ public class Vampiro extends Inimigos {
 
         danoTotal = danoRecebido.getValorDano();
 
-        if (danoRecebido.getTipoDano().equals("perfurante")){
+        if (danoRecebido.getTipoDano().equals("pancada")){
             danoTotal+=danoRecebido.getValorDano();
         }
 

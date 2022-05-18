@@ -6,7 +6,11 @@ public class Principal {
 
         Vampiro vampiro = new Vampiro();
         Generico generico = new Generico();
+        Cobra cobra = new Cobra();
+        Gigante gigante = new Gigante();
 
         game.jogar(vampiro,generico);
+        game.jogar(vampiro,cobra);
+        game.jogar(vampiro,gigante);
     }
 }

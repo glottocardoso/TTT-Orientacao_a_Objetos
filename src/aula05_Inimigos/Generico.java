@@ -13,14 +13,16 @@ public class Generico extends Inimigos{
 
     @Override
     public Dano atacar() {
-        System.out.println(this.nome + ": causou 10 de dano");
-        return new Dano(10,"comum");
+        Dano dano = new Dano(10,"fogo",": Mensagem genérica");
+        System.out.println(this.nome + ": Causou "+ dano.getValorDano() + " com um ataque "+dano.getTipoDano());
+        System.out.println(this.nome + dano.getMensagem());
+        return dano;
     }
 
     @Override
-    public void apanhar(Dano dano) {
-        this.vida -= dano.getValorDano();
-        System.out.printf("Recebeu %d de dano",dano.getValorDano());
+    public void apanhar(Dano danoRecebido) {
+        this.vida -= danoRecebido.getValorDano();
+        System.out.printf(this.nome + ": Recebeu %d de dano\n",danoRecebido.getValorDano());
     }
 
 }
